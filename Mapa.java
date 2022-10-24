@@ -1,5 +1,3 @@
-package tarea05;
-
 public class Mapa {
 
 	private Cosas[][] cosas;
@@ -19,13 +17,10 @@ public class Mapa {
 	 * @param y, la posición donde colocar la cosa en y
 	 */
 	public void colocar(Cosas cosa, int x, int y) {
-				
 		if(comprobarSiPasaLimite(x, y))
 			throw new Error("Colocaste la cosa fuera del mapa");
-		
-		if(estaOcupado(x,y))
+		else if(estaOcupado(x,y))
 			throw new Error("Casillero ocupado");
-			
 		this.cosas[x][y] = cosa;
 	}
 
@@ -50,23 +45,17 @@ public class Mapa {
 			if(puntoCardinal == 'n'){
 				vertice.x = x;
 				vertice.y = y - rango;
-			}else{
-				if(puntoCardinal == 'e'){
+			}else if(puntoCardinal == 'e'){
 					vertice.x = x + rango;
 					vertice.y = y;
-				}else{
-					if(puntoCardinal == 's'){
+				}else if(puntoCardinal == 's'){
 						vertice.x = x;
 						vertice.y = y + rango;
-					}else{
-						if(puntoCardinal == 'o'){
+					}else if(puntoCardinal == 'o'){
 							vertice.x = x - rango;
 							vertice.y = y;
-						}else
+						}else 
 							throw new Error("Punto cardinal inválido");
-					}
-				}
-			}
 		return vertice;
 	}
 
