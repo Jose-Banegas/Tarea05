@@ -1,3 +1,5 @@
+package tarea05;
+
 public class Mapa {
 
 	private Cosas[][] cosas;
@@ -18,7 +20,7 @@ public class Mapa {
 	 */
 	public void colocar(Cosas cosa, int x, int y) {
 				
-		if (comprobarSiPasaLimite(x, y))
+		if(comprobarSiPasaLimite(x, y))
 			throw new Error("Colocaste la cosa fuera del mapa");
 		
 		if(estaOcupado(x,y))
@@ -44,26 +46,27 @@ public class Mapa {
 
 	public Posicion generarVertice(char puntoCardinal, int x, int y, int rango) {
 		Posicion vertice = new Posicion();
-
-		if (puntoCardinal == 'n') {
-			vertice.x = x;
-			vertice.y = y - rango;
-		}
-
-		if (puntoCardinal == 'e') {
-			vertice.x = x + rango;
-			vertice.y = y;
-		}
-
-		if (puntoCardinal == 's') {
-			vertice.x = x;
-			vertice.y = y + rango;
-		}
-
-		if (puntoCardinal == 'o') {
-			vertice.x = x - rango;
-			vertice.y = y;
-		}
+			
+			if(puntoCardinal == 'n'){
+				vertice.x = x;
+				vertice.y = y - rango;
+			}else{
+				if(puntoCardinal == 'e'){
+					vertice.x = x + rango;
+					vertice.y = y;
+				}else{
+					if(puntoCardinal == 's'){
+						vertice.x = x;
+						vertice.y = y + rango;
+					}else{
+						if(puntoCardinal == 'o'){
+							vertice.x = x - rango;
+							vertice.y = y;
+						}else
+							throw new Error("Punto cardinal inválido");
+					}
+				}
+			}
 		return vertice;
 	}
 
@@ -83,14 +86,14 @@ public class Mapa {
 		return casilleroOcupado;
 	}
 
-	public Posicion rastrearEnSeccionDelRombo(Posicion posicion,
-			Posicion verticeDeOrigen, char operacionX, char operacionY,
-			int rango, Cosas cosa) {
+	public Posicion rastrearEnSeccionDelRombo(Posicion posicion, Posicion verticeDeOrigen, char operacionX, char operacionY, int rango, Cosas cosa) {
 
+		int operacionEnX = -1;
+		int operacionEnY = -1;
+		int casilleroX;
+		int casilleroY;
+		
 		for (int i = 0; i < rango; i++) {
-
-			int operacionEnX = -1;
-			int operacionEnY = -1;
 
 			if (operacionX == '+' && operacionY == '+') {
 				operacionEnX = verticeDeOrigen.x + i;
@@ -111,9 +114,9 @@ public class Mapa {
 				operacionEnX = verticeDeOrigen.x - i;
 				operacionEnY = verticeDeOrigen.y - i;
 			}
-
-			int casilleroX = operacionEnX;
-			int casilleroY = operacionEnY;
+			
+			casilleroX = operacionEnX;
+			casilleroY = operacionEnY;
 
 			if (comprobarSiPasaLimite(casilleroX, casilleroY)) {
 				continue;
@@ -162,7 +165,7 @@ public class Mapa {
 		posicionCosaMasCercana.y = 0;
 
 		int rango = 0;
-		while (0 == posicionCosaMasCercana.x || 0 == posicionCosaMasCercana.y) {
+		while (posicionCosaMasCercana.x == 0|| posicionCosaMasCercana.y == 0) {
 			posicionCosaMasCercana = radarRombo(rango, x, y, cosa);
 			rango++;
 		}
@@ -181,9 +184,18 @@ public class Mapa {
 
 	public Posicion buscarCosaMasLejana(Cosas cosa, int x, int y) {
 
-		// Completar
-		return new Posicion(); // Puse asi nomas para que compile y poder
-								// trabajar lo anterior
+		Posicion posicionCosaMasLejana = new Posicion();
+		posicionCosaMasLejana.x = 0;
+		posicionCosaMasLejana.y = 0;
+		
+		int rango = 0;
+		while(posicionCosaMasLejana.x == 0 || posicionCosaMasLejana.y == 0) {
+			posicionCosaMasLejana = radarRombo(rango, x, y, cosa);
+			rango++;
+		}
+		
+		// 
+		return posicionCosaMasLejana;
 	}
 
 }
