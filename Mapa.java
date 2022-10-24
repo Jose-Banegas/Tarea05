@@ -42,20 +42,20 @@ public class Mapa {
 	public Posicion generarVertice(char puntoCardinal, int x, int y, int rango) {
 		Posicion vertice = new Posicion();
 			
-			if(puntoCardinal == 'n'){
-				vertice.x = x;
-				vertice.y = y - rango;
-			}else if(puntoCardinal == 'e'){
-					vertice.x = x + rango;
-					vertice.y = y;
-				}else if(puntoCardinal == 's'){
-						vertice.x = x;
-						vertice.y = y + rango;
-					}else if(puntoCardinal == 'o'){
-							vertice.x = x - rango;
-							vertice.y = y;
-						}else 
-							throw new Error("Punto cardinal inválido");
+		if(puntoCardinal == 'n'){
+			vertice.x = x;
+			vertice.y = y - rango;
+		}else if(puntoCardinal == 'e'){
+				vertice.x = x + rango;
+				vertice.y = y;
+			}else if(puntoCardinal == 's'){
+					vertice.x = x;
+					vertice.y = y + rango;
+				}else if(puntoCardinal == 'o'){
+						vertice.x = x - rango;
+						vertice.y = y;
+					}else 
+						throw new Error("Punto cardinal inválido");
 		return vertice;
 	}
 
@@ -83,26 +83,20 @@ public class Mapa {
 		int casilleroY;
 		
 		for (int i = 0; i < rango; i++) {
-
-			if (operacionX == '+' && operacionY == '+') {
+			if(operacionX == '+' && operacionY == '+') {
 				operacionEnX = verticeDeOrigen.x + i;
 				operacionEnY = verticeDeOrigen.y + i;
-			}
-
-			if (operacionX == '+' && operacionY == '-') {
-				operacionEnX = verticeDeOrigen.x + i;
-				operacionEnY = verticeDeOrigen.y - i;
-			}
-
-			if (operacionX == '-' && operacionY == '+') {
-				operacionEnX = verticeDeOrigen.x - i;
-				operacionEnY = verticeDeOrigen.y + i;
-			}
-
-			if (operacionX == '-' && operacionY == '-') {
-				operacionEnX = verticeDeOrigen.x - i;
-				operacionEnY = verticeDeOrigen.y - i;
-			}
+			}else if(operacionX == '+' && operacionY == '-') {
+					operacionEnX = verticeDeOrigen.x + i;
+					operacionEnY = verticeDeOrigen.y - i;
+				}else if(operacionX == '-' && operacionY == '+') {
+						operacionEnX = verticeDeOrigen.x - i;
+						operacionEnY = verticeDeOrigen.y + i;
+					}else if(operacionX == '-' && operacionY == '-') {
+							operacionEnX = verticeDeOrigen.x - i;
+							operacionEnY = verticeDeOrigen.y - i;
+						}else
+							throw new Error("Operación inválida");
 			
 			casilleroX = operacionEnX;
 			casilleroY = operacionEnY;
@@ -116,14 +110,13 @@ public class Mapa {
 				posicion.y = casilleroY;
 			}
 		}
-		System.out.println("RANGO: " + rango);
 		return posicion;
 	}
 
 	public Posicion radarRombo(int rango, int x, int y, Cosas cosa) {
 
 		Posicion posicionCosa = new Posicion();
-
+		
 		// Vertices
 		Posicion vNorte = generarVertice('n', x, y, rango);
 		Posicion vEste = generarVertice('e', x, y, rango);
@@ -144,21 +137,28 @@ public class Mapa {
 				'-', rango, cosa);
 
 		System.out.println(posicionCosa.x);
+		System.out.println(posicionCosa.y);
 		return posicionCosa;
 	}
 
+	/**
+	 * Buscará la cosa más cercana desde la posición suministrada
+	 * @param cosa, la cosa a buscar. No debe ser Cosas.NADA
+	 * @param x, la posición de origen en x
+	 * @param y, la posición de origen en y
+	 * @return la posicion de la cosa más cercana a x, y
+	 */
 	public Posicion buscarCosaMasCercana(Cosas cosa, int x, int y) {
 
+		if(cosa == Cosas.NADA)
+			throw new Error("No puede ser Cosas.NADA");
+		
 		Posicion posicionCosaMasCercana = new Posicion();
-		posicionCosaMasCercana.x = 0;
-		posicionCosaMasCercana.y = 0;
-
 		int rango = 0;
-		while (posicionCosaMasCercana.x == 0|| posicionCosaMasCercana.y == 0) {
+		while (posicionCosaMasCercana.x == 0 || posicionCosaMasCercana.y == 0) {
 			posicionCosaMasCercana = radarRombo(rango, x, y, cosa);
 			rango++;
-		}
-
+			}
 		return posicionCosaMasCercana;
 	}
 
@@ -174,11 +174,11 @@ public class Mapa {
 	public Posicion buscarCosaMasLejana(Cosas cosa, int x, int y) {
 
 		Posicion posicionCosaMasLejana = new Posicion();
-		posicionCosaMasLejana.x = 0;
-		posicionCosaMasLejana.y = 0;
+		posicionCosaMasLejana.x = 99999999;
+		posicionCosaMasLejana.y = 99999999;
 		
 		int rango = 0;
-		while(posicionCosaMasLejana.x == 0 || posicionCosaMasLejana.y == 0) {
+		while(posicionCosaMasLejana.x == 99999999 || posicionCosaMasLejana.y == 99999999) {
 			posicionCosaMasLejana = radarRombo(rango, x, y, cosa);
 			rango++;
 		}
