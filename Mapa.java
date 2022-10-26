@@ -1,3 +1,5 @@
+package tarea05;
+
 public class Mapa {
 
 	private Cosas[][] cosas;
@@ -214,7 +216,7 @@ public class Mapa {
 			posicionCosaMasCercana.y = y;
 			return posicionCosaMasCercana;
 		}
-		//para poder continuar con la búsqueda, se iguala la posicion (0,0) a Cosas.NADA y se la almacena en la variable auxiliar.
+
 		if(obtenerCosa(posicionCosaMasCercanaAux.x, posicionCosaMasCercanaAux.y) == Cosas.NADA){
 			while(obtenerCosa(posicionCosaMasCercana.x, posicionCosaMasCercana.y) == Cosas.NADA && rango < (cosas.length + cosas[0].length - 2)) {
 				posicionCosaMasCercana = radarRombo(rango, x, y, cosa);
@@ -249,10 +251,10 @@ public class Mapa {
 			while(posicionCosaMasLejana.x == 0 && posicionCosaMasLejana.y == 0 && rango >= 0) {
 				posicionCosaMasLejana = radarRombo(rango, x, y, cosa);
 				rango--;
-				System.out.println(rango);
 		}
-		System.out.println(posicionCosaMasLejana.x);
-		System.out.println(posicionCosaMasLejana.y);
+		if(posicionCosaMasLejana.x == 0 && posicionCosaMasLejana.y == 0 
+				&& obtenerCosa(posicionCosaMasLejana.x, posicionCosaMasLejana.y) != cosa)
+			throw new Error("Cosa inexistente");
 		return posicionCosaMasLejana;
 	}
 }
