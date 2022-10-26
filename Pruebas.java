@@ -245,7 +245,6 @@ public class Pruebas {
 		Posicion posicionParedMasCercana = mapa.buscarCosaMasCercana(Cosas.PARED, 0, 0);
 		Assert.assertTrue( (posicionParedMasCercana.x == 0) && (posicionParedMasCercana.y == 0));
 	}
-	
 
 	@Test
 	public void encontrarCosaMasLejana(){
@@ -259,7 +258,7 @@ public class Pruebas {
 	
 	@Test
 	public void encontrarFrutaMasLejanaEn35x15(){
-		System.out.println("PruebaRem");
+		System.out.println("encontrarFrutaMasLejanaEn35x15");
 		Mapa mapa = new Mapa(35, 15);
 		mapa.colocar(Cosas.FRUTA, 4, 4);
 		mapa.colocar(Cosas.FRUTA, 12, 2);
@@ -271,12 +270,12 @@ public class Pruebas {
 		mapa.colocar(Cosas.FRUTA, 1, 2);
 		mapa.colocar(Cosas.FRUTA, 31, 14);
 		Posicion posicionFrutaMasLejana = mapa.buscarCosaMasLejana(Cosas.FRUTA, 10, 14);
-		Assert.assertTrue( (posicionFrutaMasLejana.x == 31) && (posicionFrutaMasLejana.y == 14) );
+		Assert.assertTrue( (posicionFrutaMasLejana.x == 25) && (posicionFrutaMasLejana.y == 3) );
 	}
 	
 	@Test
 	public void encontrarFrutaMasLejanaEn35x15Ver2(){
-		System.out.println("Pruebaver2");
+		System.out.println("encontrarFrutaMasLejanaEn35x15Ver2");
 		Mapa mapa = new Mapa(35, 15);
 		mapa.colocar(Cosas.FRUTA, 4, 4);
 		mapa.colocar(Cosas.FRUTA, 12, 2);
@@ -288,7 +287,7 @@ public class Pruebas {
 		mapa.colocar(Cosas.FRUTA, 1, 2);
 		mapa.colocar(Cosas.FRUTA, 31, 14);
 		Posicion posicionFrutaMasLejana = mapa.buscarCosaMasLejana(Cosas.FRUTA, 30, 14);
-		Assert.assertTrue( (posicionFrutaMasLejana.x == 4) && (posicionFrutaMasLejana.y == 4) );
+		Assert.assertTrue( (posicionFrutaMasLejana.x == 1) && (posicionFrutaMasLejana.y == 2) );
 	}
 	
 	@Test
@@ -311,7 +310,7 @@ public class Pruebas {
 	
 	@Test
 	public void encontrarParedMasLejanaEn50x70(){
-		System.out.println("PruebaRemastered");
+		System.out.println("encontrarParedMasLejanaEn50x70");
 		Mapa mapa = new Mapa(50, 70);
 		mapa.colocar(Cosas.PARED, 14, 12);
 		mapa.colocar(Cosas.PARED, 30, 40);
@@ -327,7 +326,7 @@ public class Pruebas {
 	
 	@Test
 	public void encontrarParedMasLejanaEn15x20(){
-		System.out.println("PruebaRemastered");
+		System.out.println("encontrarParedMasLejanaEn15x20");
 		Mapa mapa = new Mapa(15, 20);
 		mapa.colocar(Cosas.PARED, 11, 16);
 		mapa.colocar(Cosas.PARED, 11, 9);
@@ -340,6 +339,5 @@ public class Pruebas {
 		Posicion posicionParedMasLejana = mapa.buscarCosaMasLejana(Cosas.PARED, 0, 0);
 		Assert.assertTrue( (posicionParedMasLejana.x == 13) && (posicionParedMasLejana.y == 19) );
 	}
-	
 	
 }
