@@ -62,8 +62,7 @@ public class Mapa {
 				}else if(puntoCardinal == 'o'){
 						vertice.x = x - rango;
 						vertice.y = y;
-					}else 
-						throw new Error("Punto cardinal inválido");
+					}
 		return vertice;
 	}
 	
@@ -79,8 +78,7 @@ public class Mapa {
 			pasaLimite = true;
 		return pasaLimite;
 	}
-	
-	
+
 	/**
 	 * Comienza a rastrear desde el punto de origen hacia afuera, hasta rango.
 	 * @param posicion, la posicion de la cosa a buscar
@@ -94,35 +92,30 @@ public class Mapa {
 	public Posicion rastrearDesdeZonaCercana(Posicion posicion, Posicion verticeDeOrigen, 
 			char operacionX, char operacionY, int rango, Cosas cosa) {
 		
-		for (int i = 0; i < rango; i++) { 
-			
-			int operacionEnX = -1;
-			int operacionEnY = -1;
-			
+		int operacionEnX = -1;
+		int operacionEnY = -1;
+	
+		for (int i = 0; i < rango; i++) { 			
 			if (operacionX == '+' && operacionY == '+') {
 				operacionEnX = verticeDeOrigen.x + i;
 				operacionEnY = verticeDeOrigen.y + i;
 				}else if (operacionX == '-' && operacionY == '+') {
 					operacionEnX = verticeDeOrigen.x - i;
 					operacionEnY = verticeDeOrigen.y + i;
-					}else if (operacionX == '-' && operacionY == '-') {
-						operacionEnX = verticeDeOrigen.x - i;
+					}else if (operacionX == '+' && operacionY == '-') {
+						operacionEnX = verticeDeOrigen.x + i;
 						operacionEnY = verticeDeOrigen.y - i;
-						}else if (operacionX == '+' && operacionY == '-') {
-							operacionEnX = verticeDeOrigen.x + i;
+						}else if (operacionX == '-' && operacionY == '-') {
+							operacionEnX = verticeDeOrigen.x - i;
 							operacionEnY = verticeDeOrigen.y - i;
-					}
-			
-			if (comprobarSiPasaLimite(operacionEnX, operacionEnY)) {
+							}
+			if (comprobarSiPasaLimite(operacionEnX, operacionEnY)) 
 				continue;
-			}
-	
 			if (obtenerCosa(operacionEnX, operacionEnY) == cosa) {
 				posicion.x = operacionEnX;
 				posicion.y = operacionEnY;	
 			}		
 		}
-		//System.out.println(rango);
 		return posicion;
 	}
 	
@@ -142,11 +135,8 @@ public class Mapa {
 		
 		int operacionEnX = -1;
 		int operacionEnY = -1;
-		posicion.x = -1;
-		posicion.y = -1;
 		
 		for (int i = rango; i >= 0; i--) { 
-			
 			if (operacionX == '+' && operacionY == '+') {
 				operacionEnX = verticeDeOrigen.x + i;
 				operacionEnY = verticeDeOrigen.y + i;
@@ -160,31 +150,25 @@ public class Mapa {
 							operacionEnX = verticeDeOrigen.x + i;
 							operacionEnY = verticeDeOrigen.y - i;
 					}
-			
-			if (comprobarSiPasaLimite(operacionEnX, operacionEnY)) {
-				continue;
-			}
-		
+			if (comprobarSiPasaLimite(operacionEnX, operacionEnY))
+				continue;		
 			if (obtenerCosa(operacionEnX, operacionEnY) == cosa) {
 				posicion.x = operacionEnX;
 				posicion.y = operacionEnY;	
-			} else {
-				posicion.x = -1;
-				posicion.y = -1;			
 			}
 		}
 		return posicion;
 	}	
 	
 	/**
-	 * Radar que busca la cosa mas cercana desde el origen hacia afuera
+	 * Radar que busca la cosa mas cercana/lejana
 	 * @param rango, la distancia maxima a la cosa a consultar.
 	 * @param x, la posicion de la cosa en x
 	 * @param y, la posicion de la cosa en y
 	 * @param cosa, la cosa a buscar
 	 * 
 	 */
-	public Posicion radarRomboCercano(int rango, int x, int y, Cosas cosa) {
+	public Posicion radarRombo(int rango, int x, int y, Cosas cosa) {
 		
 		Posicion posicionCosa = new Posicion();
 				
@@ -208,41 +192,7 @@ public class Mapa {
 				vOeste, '+', '-', rango, cosa);
 		return posicionCosa;
 	}
-	
-	/**
-	 * Radar que busca la cosa mas lejana desde el maximo posible hacia adentro
-	 * @param rango, la distancia maxima posible a la cosa a consultar.
-	 * @param x, la posicion de la cosa en x
-	 * @param y, la posicion de la cosa en y
-	 * @param cosa, la cosa a buscar
-	 * 
-	 */
-	public Posicion radarRomboLejano(int rango, int x, int y, Cosas cosa) {
 		
-		Posicion posicionCosa = new Posicion();
-				
-		// Vertices
-		Posicion vNorte = generarVertice('n', x, y, rango);
-		Posicion vEste = generarVertice('e', x, y, rango);
-		Posicion vSur = generarVertice('s', x, y, rango);
-		Posicion vOeste = generarVertice('o', x, y, rango);
-	
-		// Buscar de Norte a Este
-		posicionCosa = rastrearDesdeZonaLejana(posicionCosa, vNorte, '+', '+', rango, cosa);
-		if (posicionCosa.x == -1 && posicionCosa.y == -1) 
-			// Buscar de Este a Sur
-			posicionCosa = rastrearDesdeZonaLejana(posicionCosa, vEste, '-', '+', rango, cosa);
-			else if (posicionCosa.x == -1 && posicionCosa.y == -1) 
-				// Buscar de Sur a Oeste
-				posicionCosa = rastrearDesdeZonaLejana(posicionCosa, vSur, '-', '-', rango, cosa);	
-				else if (posicionCosa.x == -1 && posicionCosa.y == -1) 
-					// Buscar de Oeste a Norte
-					posicionCosa = rastrearDesdeZonaLejana(posicionCosa, vOeste, '+', '-', rango, cosa);
-					else if (posicionCosa.x == -1 && posicionCosa.y == -1) 
-						throw new Error("Imposible");
-		return posicionCosa;
-	}
-	
 	/**
 	 * Buscará la cosa más cercana desde la posición suministrada
 	 * @param cosa, la cosa a buscar. No debe ser Cosas.NADA
@@ -267,14 +217,14 @@ public class Mapa {
 		//para poder continuar con la búsqueda, se iguala la posicion (0,0) a Cosas.NADA y se la almacena en la variable auxiliar.
 		if(obtenerCosa(posicionCosaMasCercanaAux.x, posicionCosaMasCercanaAux.y) == Cosas.NADA){
 			while(obtenerCosa(posicionCosaMasCercana.x, posicionCosaMasCercana.y) == Cosas.NADA && rango < (cosas.length + cosas[0].length - 2)) {
-				posicionCosaMasCercana = radarRomboCercano(rango, x, y, cosa);
+				posicionCosaMasCercana = radarRombo(rango, x, y, cosa);
 				rango++;
 			} 
 		}else{
 			if(obtenerCosa(0, 0) != Cosas.NADA)
 				cosas[0][0] = Cosas.NADA;
 			while(obtenerCosa(posicionCosaMasCercana.x, posicionCosaMasCercana.y) == Cosas.NADA && rango < (cosas.length + cosas[0].length - 2)) {
-				posicionCosaMasCercana = radarRomboCercano(rango, x, y, cosa);
+				posicionCosaMasCercana = radarRombo(rango, x, y, cosa);
 				rango++;
 			} 
 			if (Math.abs((posicionCosaMasCercana.x + posicionCosaMasCercana.y) - (x + y)) > Math.abs((posicionCosaMasCercanaAux.x + posicionCosaMasCercanaAux.y) - (x + y))){
@@ -295,15 +245,9 @@ public class Mapa {
 	
 	public Posicion buscarCosaMasLejana(Cosas cosa, int x, int y) {
 		Posicion posicionCosaMasLejana = new Posicion();
-		Posicion posicionCosaMasLejanaAux = new Posicion();
-		posicionCosaMasLejana.x = -1;
-		posicionCosaMasLejana.y = -1;
-		posicionCosaMasLejanaAux.x = -1;
-		posicionCosaMasLejanaAux.y = -1;
-
 		int rango = cosas.length + cosas[0].length - 2; 
-			while(-1 == posicionCosaMasLejana.x || -1 == posicionCosaMasLejana.y && rango >= 0 ) {
-				posicionCosaMasLejana = radarRomboLejano(rango, x, y, cosa);
+			while(posicionCosaMasLejana.x == 0 && posicionCosaMasLejana.y == 0 && rango >= 0) {
+				posicionCosaMasLejana = radarRombo(rango, x, y, cosa);
 				rango--;
 				System.out.println(rango);
 		}
@@ -311,7 +255,6 @@ public class Mapa {
 		System.out.println(posicionCosaMasLejana.y);
 		return posicionCosaMasLejana;
 	}
-	
 }
 
 class Posicion {
